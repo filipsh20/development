@@ -44,7 +44,17 @@ const payment = (req, res) => {
 };
 
 const success = (req, res) => {
-    res.send(req)
+    const paymentId = req.query.paymentId;
+    const payerId = req.query.PayerID;
+
+    paypal.payment.execute(paymentId, { payer_id: payerId }, (error, payment) => {
+        if (error) {
+        console.error(error);
+        } else {
+        console.log(payment);
+        res.send('Pago realizado correctamente');
+        }
+    });
 }
 
 //routes
