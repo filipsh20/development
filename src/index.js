@@ -3,10 +3,16 @@ const paypal = require('paypal-rest-sdk');
 
 const app = express();
 
+//settings
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+
+//middlewars
 app.use(express.urlencoded({extended: false}));
+require('dotenv').config();
+require('./database');
+
 
 paypal.configure({
     mode: 'sandbox',
@@ -46,6 +52,7 @@ const payment = (req, res) => {
 const success = (req, res) => {
     const paymentId = req.query.paymentId;
     const payerId = req.query.PayerID;
+    console.log(req)
 
     paypal.payment.execute(paymentId, { payer_id: payerId }, (error, payment) => {
         if (error) {
@@ -55,6 +62,8 @@ const success = (req, res) => {
         res.send('Pago realizado correctamente');
         }
     });
+
+
 }
 
 //routes
