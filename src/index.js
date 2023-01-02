@@ -43,10 +43,14 @@ const payment = (req, res) => {
     });
 };
 
+const success = (req, res) => {
+    res.send(req)
+}
+
 //routes
 app.get('/', (req, res, next) => {res.render('index')})
 app.post('/payment', payment);
-app.get('/success', (req, res) => {res.send('Payment completed')})
+app.get('/success', success);
 app.get('/failure', (req, res) => {res.send('Payment canceled')});
 
 app.listen(app.get('port'), () => console.log('Server running'));
